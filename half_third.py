@@ -43,7 +43,7 @@ def plot_tests(max_N=1000, iterations=100):
     mins, maxs = mins_maxs(max_N, iterations)
     plt.plot(maxs)
     plt.plot(mins)
-    plt.title('Thirsday convergence for N={}'.format(max_N))
+    plt.title('Thirdsday convergence for N={}'.format(max_N))
     plt.xlabel('N')
     plt.ylabel('Iterations to convergence')
     plt.show(block=False)
