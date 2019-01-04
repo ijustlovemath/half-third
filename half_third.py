@@ -1,6 +1,7 @@
 import math
 import random
 import sys
+import itertools
 from collections import defaultdict
 import matplotlib.pyplot as plt
 
@@ -26,7 +27,7 @@ def test_a_bunch(max_N=1000, iterations=100, result_dict=defaultdict(list)):
             result_dict[N].append(k)
     return result_dict
 
-def plot_tests(max_N=1000, iterations=100):
+def mins_maxs(max_N=1000, iterations=100):
     d = test_a_bunch(max_N, iterations)
     maxs = []
     mins = []
@@ -36,9 +37,20 @@ def plot_tests(max_N=1000, iterations=100):
         maxs.append(max(v))
         mins.append(min(v))
 
+    return mins, maxs
+
+def plot_tests(max_N=1000, iterations=100):
     plt.plot(maxs)
     plt.plot(mins)
     plt.title('Thirsday convergence for N={}'.format(max_N))
     plt.xlabel('N')
     plt.ylabel('Iterations to convergence')
     plt.show(block=False)
+
+def max_stats(max_N=1000, iterations=100):
+    _, maxs = mins_maxs(max_N, iterations)
+
+    def gap_size(maxs):
+        return list(sum(1 for _ in l) for _, l in itertools.groupby(maxs))
+
+    print("gap sizes:",gap_size(maxs))
