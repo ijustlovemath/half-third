@@ -2,6 +2,7 @@ import math
 import random
 import sys
 from collections import defaultdict
+import matplotlib.pyplot as plt
 
 def calc_one_by_n(n, estimate):
     new_estimate = (1 - estimate) / (n-1)
@@ -18,13 +19,26 @@ def thirdsday(n=3, estimate=random.random(), silent=False):
             return i, estimate
         i += 1
 
-def test_a_bunch(max_number=1000, iteration_number=100, result_dict=defaultdict(list)):
-    for i in range(3, max_number):
-        print('testing number {}'.format(i))
-        for j in range(iteration_number):
-            k, _ = thirdsday(i, estimate=random.random(), silent=True)
-            result_dict[i].append(k)
-            print(j, end='\r')
-            #sys.stdout.flush()
-        print('done collecting results for {}'.format(i))
+def test_a_bunch(max_N=1000, iterations=100, result_dict=defaultdict(list)):
+    for N in range(3, max_N+1):
+        for j in range(iterations):
+            k, _ = thirdsday(N, estimate=random.random(), silent=True)
+            result_dict[N].append(k)
     return result_dict
+
+def plot_tests(max_N=1000, iterations=100):
+    d = test_a_bunch(max_N, iterations)
+    maxs = []
+    mins = []
+
+    # Assume d ordered...
+    for _, v in d.items():
+        maxs.append(max(v))
+        mins.append(min(v))
+
+    plt.plot(maxs)
+    plt.plot(mins)
+    plt.title('Thirsday convergence for N={}'.format(max_N))
+    plt.xlabel('N')
+    plt.ylabel('Iterations to convergence')
+    plt.show(block=False)
